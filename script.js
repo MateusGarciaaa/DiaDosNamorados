@@ -3,6 +3,8 @@ document.getElementById('btn-reveal').addEventListener('click', () => {
   document.getElementById('title-1').classList.add('hidden');
   document.getElementById('title-2').classList.remove('hidden');
   document.getElementById('title-4').classList.remove('hidden');
+
+  startLiveCounter(); // inicia o contador assim que clicar no coração
 });
 
 function startLiveCounter() {
@@ -27,7 +29,6 @@ function startLiveCounter() {
       months += 12;
     }
 
-    // Agora calcula o tempo dentro do dia (horas, minutos, segundos)
     let hours = end.getHours() - start.getHours();
     let minutes = end.getMinutes() - start.getMinutes();
     let seconds = end.getSeconds() - start.getSeconds();
@@ -73,6 +74,6 @@ function startLiveCounter() {
     return num.toString().padStart(2, '0');
   }
 
-  update(); // chama no início
+  update(); // chama no início para atualizar imediatamente
   setInterval(update, 1000); // atualiza a cada segundo
 }
