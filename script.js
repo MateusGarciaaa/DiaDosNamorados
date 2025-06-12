@@ -47,7 +47,7 @@ const prevBtn = document.querySelector('.carousel-btn.prev');
 const nextBtn = document.querySelector('.carousel-btn.next');
 
 let index = 0;
-const totalSlides = 13;
+const totalSlides = 10;
 
 function updateCarousel() {
   const slideWidth = track.clientWidth / totalSlides;
