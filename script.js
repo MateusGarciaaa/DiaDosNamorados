@@ -34,89 +34,97 @@ function startLiveCounter() {
 
   function update() {
     const now = new Date();
-    const { years, months, days } = getTimeDifference(startDate, now);
+
+    let years = now.getFullYear() - startDate.getFullYear();
+    let months = now.getMonth() - startDate.getMonth();
+    let days = now.getDate() - startDate.getDate();
+
+    if (days < 0) {
+      months--;
+      const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+      days += prevMonth.getDate();
+    }
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
 
     const hours = now.getHours();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
 
-    document.getElementById("years").textContent = years !== 1 ? `${years} anos` : `${years} ano`;
-    document.getElementById("months").textContent = months !== 1 ? `${months} meses` : `${months} mês`;
-    document.getElementById("days").textContent = days !== 1 ? `${days} dias` : `${days} dia`;
+    document.getElementById("years").textContent = years != 1 ? `${years} anos` : `${years} ano`;
+    document.getElementById("months").textContent = months != 1 ? `${months} meses` : `${months} mês`;
+    document.getElementById("days").textContent = days != 1 ? `${days} dias` : `${days} dia`;
     document.getElementById("clock").textContent = `${pad(hours)} horas ${pad(minutes)} minutos e ${pad(seconds)} segundos`;
   }
 
-  function pad(num) {
-    return num.toString().padStart(2, '0');
+
+  // Carrossel
+  const track = document.querySelector('.carousel-track');
+  const prevBtn = document.querySelector('.carousel-btn.prev');
+  const nextBtn = document.querySelector('.carousel-btn.next');
+  const imgs = document.querySelectorAll('.carousel-track img');
+
+  let index = 0;
+  const totalSlides = imgs.length;
+
+  function getSlideWidth() {
+    const img = imgs[0];
+    const style = getComputedStyle(img);
+    const width = img.getBoundingClientRect().width;
+    const marginRight = parseFloat(style.marginRight || 0);
+    return width + marginRight;
   }
 
-  update(); // chama no início
-  setInterval(update, 1000); // atualiza a cada segundo
-}
-
-// Carrossel
-const track = document.querySelector('.carousel-track');
-const prevBtn = document.querySelector('.carousel-btn.prev');
-const nextBtn = document.querySelector('.carousel-btn.next');
-const imgs = document.querySelectorAll('.carousel-track img');
-
-let index = 0;
-const totalSlides = imgs.length;
-
-function getSlideWidth() {
-  const img = imgs[0];
-  const style = getComputedStyle(img);
-  const width = img.getBoundingClientRect().width;
-  const marginRight = parseFloat(style.marginRight || 0);
-  return width + marginRight;
-}
-
-function updateCarousel() {
-  const slideWidth = getSlideWidth();
-  track.style.transform = `translateX(-${index * slideWidth}px)`;
-}
-
-prevBtn.addEventListener('click', () => {
-  if (index > 0) {
-    index--;
-    updateCarousel();
+  function updateCarousel() {
+    const slideWidth = getSlideWidth();
+    track.style.transform = `translateX(-${index * slideWidth}px)`;
   }
-});
 
-nextBtn.addEventListener('click', () => {
-  if (index < totalSlides - 1) {
-    index++;
-    updateCarousel();
-  }
-});
-
-window.addEventListener('resize', updateCarousel);
-
-// Suporte a toque (arraste no celular)
-let startX = 0;
-let isDragging = false;
-
-track.addEventListener('touchstart', (e) => {
-  startX = e.touches[0].clientX;
-  isDragging = true;
-});
-
-track.addEventListener('touchmove', (e) => {
-  if (!isDragging) return;
-  const currentX = e.touches[0].clientX;
-  const deltaX = currentX - startX;
-
-  if (Math.abs(deltaX) > 50) {
-    if (deltaX < 0 && index < totalSlides - 1) {
-      index++;
-    } else if (deltaX > 0 && index > 0) {
+  prevBtn.addEventListener('click', () => {
+    if (index > 0) {
       index--;
+      updateCarousel();
     }
-    updateCarousel();
-    isDragging = false;
-  }
-});
+  });
 
-track.addEventListener('touchend', () => {
-  isDragging = false;
-});
+  nextBtn.addEventListener('click', () => {
+    if (index < totalSlides - 1) {
+      index++;
+      updateCarousel();
+    }
+  });
+
+  window.addEventListener('resize', updateCarousel);
+
+  // Suporte a toque (arraste no celular)
+  let startX = 0;
+  let isDragging = false;
+
+  track.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+  });
+
+  track.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const currentX = e.touches[0].clientX;
+    const deltaX = currentX - startX;
+
+    if (Math.abs(deltaX) > 50) {
+      if (deltaX < 0 && index < totalSlides - 1) {
+        index++;
+      } else if (deltaX > 0 && index > 0) {
+        index--;
+      }
+      updateCarousel();
+      isDragging = false;
+    }
+  });
+
+  track.addEventListener('touchend', () => {
+    isDragging = false;
+  })
+}
