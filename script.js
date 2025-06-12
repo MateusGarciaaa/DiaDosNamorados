@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // --- Botão que revela o conteúdo surpresa ---
   const btnReveal = document.getElementById('btn-reveal');
   const surprise = document.getElementById('surprise');
 
@@ -11,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     surprise.classList.remove('hidden');
   });
 
-  // Contador do tempo junto (exemplo: data do começo do namoro)
-  const startDate = new Date('2021-06-12T00:00:00'); // ajuste aqui a data de início
+  // --- Contador de tempo junto ---
+  const startDate = new Date('2021-06-12T00:00:00'); // Ajuste a data do começo do namoro
   const yearsEl = document.getElementById('years');
   const monthsEl = document.getElementById('months');
   const daysEl = document.getElementById('days');
@@ -27,7 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (days < 0) {
       months--;
-      days += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+      // pega quantidade de dias no mês anterior
+      const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+      days += prevMonth.getDate();
     }
     if (months < 0) {
       years--;
@@ -37,14 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
     yearsEl.textContent = `Anos: ${years}`;
     monthsEl.textContent = `Meses: ${months}`;
     daysEl.textContent = `Dias: ${days}`;
-
     clockEl.textContent = now.toLocaleTimeString();
   }
 
   setInterval(updateTimeTogether, 1000);
   updateTimeTogether();
 
-  // Carousel de fotos
+  // --- Carrossel de fotos ---
   const prevBtn = document.querySelector('.carousel-btn.prev');
   const nextBtn = document.querySelector('.carousel-btn.next');
   const track = document.querySelector('.carousel-track');
