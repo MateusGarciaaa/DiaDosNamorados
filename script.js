@@ -10,31 +10,47 @@ document.getElementById("btn-reveal").addEventListener("click", () => {
 function startLiveCounter() {
   const startDate = new Date("2024-01-01T00:00:00");
 
+  function getTimeDifference(startDate, now) {
+    let start = new Date(startDate);
+    let end = new Date(now);
+
+    let years = end.getFullYear() - start.getFullYear();
+    let months = end.getMonth() - start.getMonth();
+    let days = end.getDate() - start.getDate();
+
+    if (days < 0) {
+      months--;
+      const previousMonthDays = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+      days += previousMonthDays;
+    }
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    return { years, months, days };
+  }
+
   function update() {
     const now = new Date();
-    const diff = now - startDate;
+    const { years, months, days } = getTimeDifference(startDate, now);
 
-    const totalSeconds = Math.floor(diff / 1000);
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
 
-    const years = Math.floor(totalSeconds / (365 * 24 * 60 * 60));
-    const months = Math.floor(totalSeconds / (30 * 24 * 60 * 60)) % 12;
-    const days = Math.floor(totalSeconds / (24 * 60 * 60)) % 30;
-    const hours = Math.floor((totalSeconds / (60 * 60)) % 24);
-    const minutes = Math.floor((totalSeconds / 60) % 60);
-    const seconds = totalSeconds % 60;
-
-    document.getElementById("years").textContent = years != 1 ? `${years} anos` : `${years} ano`;
-    document.getElementById("months").textContent = months != 1 ? `${months} meses` : `${months} mês`;
-    document.getElementById("days").textContent = days != 1 ? `${days} dias` : `${days} dia`;
+    document.getElementById("years").textContent = years !== 1 ? `${years} anos` : `${years} ano`;
+    document.getElementById("months").textContent = months !== 1 ? `${months} meses` : `${months} mês`;
+    document.getElementById("days").textContent = days !== 1 ? `${days} dias` : `${days} dia`;
     document.getElementById("clock").textContent = `${pad(hours)} horas ${pad(minutes)} minutos e ${pad(seconds)} segundos`;
-}
-
+  }
 
   function pad(num) {
     return num.toString().padStart(2, '0');
   }
 
-  update(); // chama logo no início
+  update(); // chama no início
   setInterval(update, 1000); // atualiza a cada segundo
 }
 
