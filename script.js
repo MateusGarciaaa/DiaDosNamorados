@@ -11,53 +11,40 @@ function startLiveCounter() {
   const startDate = new Date("2023-12-31T00:00:00");
 
   function getTimeDifference(startDate, now) {
-    let start = new Date(startDate);
-    let end = new Date(now);
-
-    let years = end.getFullYear() - start.getFullYear();
-    let months = end.getMonth() - start.getMonth();
-    let days = end.getDate() - start.getDate();
-
-    if (days < 0) {
-      months--;
-      const previousMonthDays = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
-      days += previousMonthDays;
-    }
-
-    if (months < 0) {
-      years--;
-      months += 12;
-    }
-
-    let hours = end.getHours() - start.getHours();
-    let minutes = end.getMinutes() - start.getMinutes();
-    let seconds = end.getSeconds() - start.getSeconds();
+    let years = now.getFullYear() - startDate.getFullYear();
+    let months = now.getMonth() - startDate.getMonth();
+    let days = now.getDate() - startDate.getDate();
+    let hours = now.getHours() - startDate.getHours();
+    let minutes = now.getMinutes() - startDate.getMinutes();
+    let seconds = now.getSeconds() - startDate.getSeconds();
 
     if (seconds < 0) {
       seconds += 60;
       minutes--;
     }
-
     if (minutes < 0) {
       minutes += 60;
       hours--;
     }
-
     if (hours < 0) {
       hours += 24;
       days--;
-      if (days < 0) {
-        months--;
-        if (months < 0) {
-          months += 12;
-          years--;
-        }
-        const previousMonthDays = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
-        days += previousMonthDays;
-      }
+    }
+    if (days < 0) {
+      months--;
+      const prevMonthDays = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+      days += prevMonthDays;
+    }
+    if (months < 0) {
+      months += 12;
+      years--;
     }
 
     return { years, months, days, hours, minutes, seconds };
+  }
+
+  function pad(num) {
+    return num.toString().padStart(2, '0');
   }
 
   function update() {
@@ -70,10 +57,6 @@ function startLiveCounter() {
     document.getElementById("clock").textContent = `${pad(hours)} horas ${pad(minutes)} minutos e ${pad(seconds)} segundos`;
   }
 
-  function pad(num) {
-    return num.toString().padStart(2, '0');
-  }
-
-  update(); // chama no início para atualizar imediatamente
+  update(); // atualiza imediatamente ao começar
   setInterval(update, 1000); // atualiza a cada segundo
 }
