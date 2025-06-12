@@ -37,10 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
       months += 12;
     }
 
-    yearsEl.textContent = `Anos: ${years}`;
-    monthsEl.textContent = `Meses: ${months}`;
-    daysEl.textContent = `Dias: ${days}`;
-    clockEl.textContent = now.toLocaleTimeString();
+    document.getElementById("years").textContent = years != 1 ? `${years} anos` : `${years} ano`;
+    document.getElementById("months").textContent = months != 1 ? `${months} mêses` : `${months} mês`;
+    document.getElementById("days").textContent = days != 1 ? `${days} dias` : `${days} dia`;
+    document.getElementById("clock").textContent = `${pad(hours)} horas ${pad(minutes)} minutos e ${pad(seconds)} segundos`;
   }
 
   setInterval(updateTimeTogether, 1000);
