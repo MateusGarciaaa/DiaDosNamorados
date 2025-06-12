@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- Contador de tempo junto ---
-  const startDate = new Date(2024,0,1); // Ajuste a data do começo do namoro
+  const startDate = new Date(2024, 0, 1); // Ajuste a data do começo do namoro
   const yearsEl = document.getElementById('years');
   const monthsEl = document.getElementById('months');
   const daysEl = document.getElementById('days');
@@ -40,7 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
     yearsEl.textContent = `${years} ano,`;
     monthsEl.textContent = `${months} meses,`;
     daysEl.textContent = ` ${days} dias,`;
-    clockEl.textContent = now.toLocaleTimeString();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    clockEl.textContent = `${hours} horas,\n${minutes} minutos,\n${seconds} segundos`;
+
   }
 
   setInterval(updateTimeTogether, 1000);
