@@ -15,6 +15,7 @@ function startLiveCounter() {
     const diff = now - startDate;
 
     const totalSeconds = Math.floor(diff / 1000);
+
     const years = Math.floor(totalSeconds / (365 * 24 * 60 * 60));
     const months = Math.floor(totalSeconds / (30 * 24 * 60 * 60)) % 12;
     const days = Math.floor(totalSeconds / (24 * 60 * 60)) % 30;
@@ -22,18 +23,19 @@ function startLiveCounter() {
     const minutes = Math.floor((totalSeconds / 60) % 60);
     const seconds = totalSeconds % 60;
 
-    document.getElementById("years").textContent = years !== 1 ? `${years} anos` : `${years} ano`;
-    document.getElementById("months").textContent = months !== 1 ? `${months} meses` : `${months} mês`;
-    document.getElementById("days").textContent = days !== 1 ? `${days} dias` : `${days} dia`;
+    document.getElementById("years").textContent = years != 1 ? `${years} anos` : `${years} ano`;
+    document.getElementById("months").textContent = months != 1 ? `${months} meses` : `${months} mês`;
+    document.getElementById("days").textContent = days != 1 ? `${days} dias` : `${days} dia`;
     document.getElementById("clock").textContent = `${pad(hours)} horas ${pad(minutes)} minutos e ${pad(seconds)} segundos`;
-  }
+}
+
 
   function pad(num) {
     return num.toString().padStart(2, '0');
   }
 
-  update();
-  setInterval(update, 1000);
+  update(); // chama logo no início
+  setInterval(update, 1000); // atualiza a cada segundo
 }
 
 // Carrossel
