@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hours = now.getHours();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
-    clockEl.textContent = `${hours} horas,<br>${minutes} minutos,<br>${seconds} segundos`;
+    clockEl.innerHTML = `${hours} horas,<br>${minutes} minutos,<br>${seconds} segundos`;
 
   }
 
