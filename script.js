@@ -45,8 +45,16 @@ const imgs = document.querySelectorAll('.carousel-track img');
 let index = 0;
 const totalSlides = imgs.length;
 
+function getSlideWidth() {
+  const img = imgs[0];
+  const style = getComputedStyle(img);
+  const width = img.getBoundingClientRect().width;
+  const marginRight = parseFloat(style.marginRight || 0);
+  return width + marginRight;
+}
+
 function updateCarousel() {
-  const slideWidth = imgs[0].clientWidth;
+  const slideWidth = getSlideWidth();
   track.style.transform = `translateX(-${index * slideWidth}px)`;
 }
 
@@ -63,6 +71,8 @@ nextBtn.addEventListener('click', () => {
     updateCarousel();
   }
 });
+
+window.addEventListener('resize', updateCarousel);
 
 // Suporte a toque (arraste no celular)
 let startX = 0;
