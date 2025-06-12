@@ -40,9 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
     yearsEl.textContent = `${years} ano,`;
     monthsEl.textContent = `${months} meses,`;
     daysEl.textContent = ` ${days} dias,`;
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
     clockEl.textContent = `${hours} horas,\n${minutes} minutos,\n${seconds} segundos`;
 
   }
