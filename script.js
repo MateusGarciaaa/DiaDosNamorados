@@ -1,3 +1,10 @@
+document.getElementById('btn-reveal').addEventListener('click', () => {
+  document.getElementById('surprise').classList.remove('hidden');
+  document.getElementById('title-1').classList.add('hidden');
+  document.getElementById('title-2').classList.remove('hidden');
+  document.getElementById('title-4').classList.remove('hidden');
+});
+
 function startLiveCounter() {
   const startDate = new Date("2023-12-31T00:00:00");
 
