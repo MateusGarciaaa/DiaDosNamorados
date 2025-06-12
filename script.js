@@ -1,5 +1,5 @@
 function startLiveCounter() {
-  const startDate = new Date("2023-11-30T00:00:00");
+  const startDate = new Date("2023-12-31T00:00:00");
 
   function getTimeDifference(startDate, now) {
     let start = new Date(startDate);
