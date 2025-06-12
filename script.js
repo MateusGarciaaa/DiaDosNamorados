@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- Contador de tempo junto ---
-  const startDate = new Date('2024-01-01T00:00:01'); // Ajuste a data do começo do namoro
+  const startDate = new Date(2024,0,1); // Ajuste a data do começo do namoro
   const yearsEl = document.getElementById('years');
   const monthsEl = document.getElementById('months');
   const daysEl = document.getElementById('days');
