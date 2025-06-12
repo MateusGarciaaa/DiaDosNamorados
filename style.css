@@ -128,14 +128,10 @@ button:hover {
   background-image: url('assets/background.jpg');
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
   height: 100vh;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  width: 100%;
 }
+
 
 .background-header .overlay {
   background: rgba(0, 0, 0, 0.4);
