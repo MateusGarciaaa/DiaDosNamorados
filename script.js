@@ -1,56 +1,77 @@
-// Seleciona elementos do DOM
-const btnReveal = document.getElementById('btn-reveal');
-const surprise = document.getElementById('surprise');
+document.addEventListener('DOMContentLoaded', () => {
+  const btnReveal = document.getElementById('btn-reveal');
+  const surprise = document.getElementById('surprise');
 
-const track = document.querySelector('.carousel-track');
-const slides = Array.from(track.children);
-const nextButton = document.querySelector('.carousel-btn.next');
-const prevButton = document.querySelector('.carousel-btn.prev');
+  btnReveal.addEventListener('click', () => {
+    document.getElementById('title-1').classList.add('hidden');
+    document.getElementById('title-2').classList.remove('hidden');
+    btnReveal.classList.add('hidden');
+    document.getElementById('title-3').classList.add('hidden');
+    document.getElementById('title-4').classList.remove('hidden');
+    surprise.classList.remove('hidden');
+  });
 
-let currentIndex = 0;
+  // Contador do tempo junto (exemplo: data do começo do namoro)
+  const startDate = new Date('2021-06-12T00:00:00'); // ajuste aqui a data de início
+  const yearsEl = document.getElementById('years');
+  const monthsEl = document.getElementById('months');
+  const daysEl = document.getElementById('days');
+  const clockEl = document.getElementById('clock');
 
-// Função para atualizar a posição do carrossel
-function updateSlidePosition() {
-  const slideWidth = slides[0].getBoundingClientRect().width + 10; // +10 por causa da margem direita
-  track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-}
+  function updateTimeTogether() {
+    const now = new Date();
 
-// Evento do botão para mostrar o conteúdo surpresa
-btnReveal.addEventListener('click', () => {
-  // Esconde o título 1 e mostra os outros
-  document.getElementById('title-1').classList.add('hidden');
-  document.getElementById('title-2').classList.remove('hidden');
-  document.getElementById('title-3').classList.add('hidden');
-  document.getElementById('title-4').classList.remove('hidden');
+    let years = now.getFullYear() - startDate.getFullYear();
+    let months = now.getMonth() - startDate.getMonth();
+    let days = now.getDate() - startDate.getDate();
 
-  // Mostra o conteúdo surpresa
-  surprise.classList.remove('hidden');
-  btnReveal.style.display = 'none';
+    if (days < 0) {
+      months--;
+      days += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+    }
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
 
-  // Inicializa o carrossel
-  updateSlidePosition();
-});
+    yearsEl.textContent = `Anos: ${years}`;
+    monthsEl.textContent = `Meses: ${months}`;
+    daysEl.textContent = `Dias: ${days}`;
 
-// Eventos para os botões do carrossel
-nextButton.addEventListener('click', () => {
-  if (currentIndex < slides.length - 1) {
-    currentIndex++;
-  } else {
-    currentIndex = 0;
+    clockEl.textContent = now.toLocaleTimeString();
   }
-  updateSlidePosition();
-});
 
-prevButton.addEventListener('click', () => {
-  if (currentIndex > 0) {
-    currentIndex--;
-  } else {
-    currentIndex = slides.length - 1;
+  setInterval(updateTimeTogether, 1000);
+  updateTimeTogether();
+
+  // Carousel de fotos
+  const prevBtn = document.querySelector('.carousel-btn.prev');
+  const nextBtn = document.querySelector('.carousel-btn.next');
+  const track = document.querySelector('.carousel-track');
+  const slides = Array.from(track.children);
+  let currentIndex = 0;
+
+  function updateSlidePosition() {
+    const slideWidth = slides[0].getBoundingClientRect().width;
+    const style = window.getComputedStyle(slides[0]);
+    const marginRight = parseFloat(style.marginRight); // pega margem direita
+
+    track.style.transform = `translateX(-${currentIndex * (slideWidth + marginRight)}px)`;
   }
-  updateSlidePosition();
-});
 
-// Atualiza a posição ao redimensionar a janela (para responsividade)
-window.addEventListener('resize', () => {
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateSlidePosition();
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentIndex < slides.length - 1) {
+      currentIndex++;
+      updateSlidePosition();
+    }
+  });
+
   updateSlidePosition();
 });
