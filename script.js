@@ -1,10 +1,11 @@
+// Botão coração e contador
 document.getElementById('btn-reveal').addEventListener('click', () => {
   document.getElementById('surprise').classList.remove('hidden');
   document.getElementById('title-1').classList.add('hidden');
   document.getElementById('title-2').classList.remove('hidden');
   document.getElementById('title-4').classList.remove('hidden');
 
-  startLiveCounter(); // inicia o contador assim que clicar no coração
+  startLiveCounter();
 });
 
 function startLiveCounter() {
@@ -57,6 +58,43 @@ function startLiveCounter() {
     document.getElementById("clock").textContent = `${pad(hours)} horas ${pad(minutes)} minutos e ${pad(seconds)} segundos`;
   }
 
-  update(); // atualiza imediatamente ao começar
-  setInterval(update, 1000); // atualiza a cada segundo
+  update();
+  setInterval(update, 1000);
 }
+
+// Código do carrossel das fotos
+const track = document.querySelector('.carousel-track');
+const slides = Array.from(track.children);
+const nextButton = document.querySelector('.carousel-btn.next');
+const prevButton = document.querySelector('.carousel-btn.prev');
+
+let currentIndex = 0;
+
+function updateSlidePosition() {
+  const slideWidth = slides[0].getBoundingClientRect().width;
+  track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+}
+
+nextButton.addEventListener('click', () => {
+  if (currentIndex < slides.length - 1) {
+    currentIndex++;
+  } else {
+    currentIndex = 0; // volta para a primeira foto ao chegar no fim
+  }
+  updateSlidePosition();
+});
+
+prevButton.addEventListener('click', () => {
+  if (currentIndex > 0) {
+    currentIndex--;
+  } else {
+    currentIndex = slides.length - 1; // vai para a última foto se estiver na primeira
+  }
+  updateSlidePosition();
+});
+
+// Ajusta posição inicial
+updateSlidePosition();
+
+// Opcional: ajustar o layout quando a janela for redimensionada
+window.addEventListener('resize', updateSlidePosition);
